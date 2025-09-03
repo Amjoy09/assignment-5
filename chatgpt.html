@@ -1,0 +1,420 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>ChatGPT Solution</title>
+  <style>
+    /* Simple, clean styling for clarity */
+    :root {
+      --accent: #2563eb;
+      --card-bg: #ffffff;
+      --muted: #666;
+      --danger: #dc2626;
+      --gap: 12px;
+    }
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      margin: 0;
+      padding: 0;
+      background: #f3f4f6;
+      color: #111827;
+    }
+
+    /* Navbar */
+    header.navbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 18px;
+      background: white;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    header .title { font-weight: 700; }
+    #pointsContainer {
+      font-weight: 600;
+      color: var(--accent);
+    }
+    #pointsCounter {
+      display: inline-block;
+      min-width: 44px;
+      text-align: center;
+    }
+
+    /* Layout */
+    main {
+      padding: 18px;
+      display: grid;
+      grid-template-columns: 1fr 320px; /* cards | history */
+      gap: 18px;
+      align-items: start;
+    }
+
+    /* Cards grid */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--gap);
+    }
+    .card {
+      background: var(--card-bg);
+      border-radius: 8px;
+      padding: 12px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .card h3 { margin: 0; font-size: 16px; }
+    .card p { margin: 0; color: var(--muted); font-size: 14px; }
+
+    .card .btn-row {
+      margin-top: auto;
+      display: flex;
+      gap: 8px;
+    }
+    button {
+      cursor: pointer;
+      border: none;
+      border-radius: 6px;
+      padding: 8px 10px;
+      font-weight: 600;
+    }
+    .copyBtn {
+      background: #e6f0ff;
+      color: var(--accent);
+    }
+    .callBtn {
+      background: var(--accent);
+      color: white;
+    }
+
+    /* Call history panel */
+    #history-panel {
+      background: white;
+      border-radius: 8px;
+      padding: 12px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+      height: fit-content;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    #history-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+    #clearHistoryBtn {
+      background: #f3f4f6;
+      color: #111827;
+      padding: 6px 8px;
+      border-radius: 6px;
+      font-weight: 600;
+    }
+    #callHistory {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      max-height: 420px;
+      overflow-y: auto;
+    }
+    #callHistory li {
+      padding: 8px;
+      border-radius: 6px;
+      background: #fbfbfb;
+      border: 1px solid #f0f0f0;
+      font-size: 14px;
+    }
+
+    /* small screens: stack columns */
+    @media (max-width: 880px) {
+      main { grid-template-columns: 1fr; }
+      .cards-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 520px) {
+      .cards-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header class="navbar">
+    <div class="title">Service Caller — Demo</div>
+    <div id="pointsContainer">Points: <span id="pointsCounter">100</span></div>
+  </header>
+
+  <main>
+    <!-- Cards area -->
+    <section>
+      <h2 style="margin-top:0">Services</h2>
+      <div class="cards-grid" id="cardsGrid">
+
+        <!-- Each card stores its info in data attributes for easy JS access -->
+        <div class="card" data-service="Police Helpline" data-phone="999">
+          <h3>Police Helpline</h3>
+          <p>999</p>
+          <div class="btn-row">
+            <button class="copyBtn" type="button">Copy</button>
+            <button class="callBtn" type="button">Call</button>
+          </div>
+        </div>
+
+        <div class="card" data-service="Fire Department" data-phone="101">
+          <h3>Fire Department</h3>
+          <p>101</p>
+          <div class="btn-row">
+            <button class="copyBtn" type="button">Copy</button>
+            <button class="callBtn" type="button">Call</button>
+          </div>
+        </div>
+
+        <div class="card" data-service="Ambulance" data-phone="102">
+          <h3>Ambulance</h3>
+          <p>102</p>
+          <div class="btn-row">
+            <button class="copyBtn" type="button">Copy</button>
+            <button class="callBtn" type="button">Call</button>
+          </div>
+        </div>
+
+        <div class="card" data-service="Medical Helpline" data-phone="103">
+          <h3>Medical Helpline</h3>
+          <p>103</p>
+          <div class="btn-row">
+            <button class="copyBtn" type="button">Copy</button>
+            <button class="callBtn" type="button">Call</button>
+          </div>
+        </div>
+
+        <div class="card" data-service="Roadside Assistance" data-phone="104">
+          <h3>Roadside Assistance</h3>
+          <p>104</p>
+          <div class="btn-row">
+            <button class="copyBtn" type="button">Copy</button>
+            <button class="callBtn" type="button">Call</button>
+          </div>
+        </div>
+
+        <div class="card" data-service="Electricity Emergency" data-phone="105">
+          <h3>Electricity Emergency</h3>
+          <p>105</p>
+          <div class="btn-row">
+            <button class="copyBtn" type="button">Copy</button>
+            <button class="callBtn" type="button">Call</button>
+          </div>
+        </div>
+
+        <div class="card" data-service="Water Works" data-phone="106">
+          <h3>Water Works</h3>
+          <p>106</p>
+          <div class="btn-row">
+            <button class="copyBtn" type="button">Copy</button>
+            <button class="callBtn" type="button">Call</button>
+          </div>
+        </div>
+
+        <div class="card" data-service="Animal Control" data-phone="107">
+          <h3>Animal Control</h3>
+          <p>107</p>
+          <div class="btn-row">
+            <button class="copyBtn" type="button">Copy</button>
+            <button class="callBtn" type="button">Call</button>
+          </div>
+        </div>
+
+        <div class="card" data-service="Poison Control" data-phone="108">
+          <h3>Poison Control</h3>
+          <p>108</p>
+          <div class="btn-row">
+            <button class="copyBtn" type="button">Copy</button>
+            <button class="callBtn" type="button">Call</button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Call history area -->
+    <aside id="history-panel">
+      <div id="history-header">
+        <h2 style="margin:0">Call History</h2>
+        <button id="clearHistoryBtn" type="button">Clear History</button>
+      </div>
+      <ul id="callHistory">
+        <!-- Initially empty -->
+      </ul>
+    </aside>
+  </main>
+
+  <script>
+    /* ------------------------
+       Beginner-friendly JS
+       ------------------------ */
+
+    // Constants for starting points and cost per call
+    var INITIAL_POINTS = 100;
+    var CALL_COST = 20;
+
+    // Current points state (start at INITIAL_POINTS)
+    var points = INITIAL_POINTS;
+
+    // Cache DOM elements we'll update frequently
+    var pointsCounterEl = document.getElementById('pointsCounter');
+    var callHistoryEl = document.getElementById('callHistory');
+    var clearHistoryBtn = document.getElementById('clearHistoryBtn');
+
+    /**
+     * updatePointsDisplay
+     * - update the points counter visible to the user
+     */
+    function updatePointsDisplay() {
+      // Ensure the displayed text is the numeric value in 'points'
+      pointsCounterEl.textContent = String(points);
+    }
+
+    /**
+     * copyToClipboard
+     * - tries the modern Clipboard API first
+     * - falls back to a temporary textarea + document.execCommand('copy') for older browsers
+     * - returns a Promise so callers can use .then/.catch
+     */
+    function copyToClipboard(text) {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        // preferred modern API (returns a Promise)
+        return navigator.clipboard.writeText(text);
+      } else {
+        // fallback for older browsers — wrap in a Promise for consistent behavior
+        return new Promise(function (resolve, reject) {
+          var textarea = document.createElement('textarea');
+          textarea.value = text;
+          // avoid showing on screen
+          textarea.setAttribute('readonly', '');
+          textarea.style.position = 'absolute';
+          textarea.style.left = '-9999px';
+          document.body.appendChild(textarea);
+          textarea.select();
+          try {
+            var successful = document.execCommand('copy'); // may return true/false
+            document.body.removeChild(textarea);
+            if (successful) {
+              resolve();
+            } else {
+              reject(new Error('Fallback: copy command was not successful'));
+            }
+          } catch (err) {
+            document.body.removeChild(textarea);
+            reject(err);
+          }
+        });
+      }
+    }
+
+    /**
+     * addToHistory
+     * - append a new list item to the Call History
+     * - each entry shows "Service — Phone"
+     */
+    function addToHistory(service, phone) {
+      var li = document.createElement('li');
+      li.textContent = service + ' — ' + phone;
+      callHistoryEl.appendChild(li);
+    }
+
+    /**
+     * handleCopy
+     * - event handler for Copy buttons
+     * - finds the parent card, reads its data attributes, and copies to clipboard
+     */
+    function handleCopy(event) {
+      // find the nearest ancestor with class 'card'
+      var card = event.target.closest('.card');
+      if (!card) return; // safety check
+
+      var service = card.dataset.service || '';
+      var phone = card.dataset.phone || '';
+      var textToCopy = service + ' — ' + phone;
+
+      copyToClipboard(textToCopy)
+        .then(function () {
+          // simple feedback for a beginner-friendly demo
+          alert('Copied: ' + textToCopy);
+        })
+        .catch(function (err) {
+          // copy failed — inform the user
+          console.error('Copy failed', err);
+          alert('Could not copy to clipboard. Please select and copy manually: ' + textToCopy);
+        });
+    }
+
+    /**
+     * handleCall
+     * - event handler for Call buttons
+     * - checks points, deducts CALL_COST if enough, and records the call in history
+     */
+    function handleCall(event) {
+      var card = event.target.closest('.card');
+      if (!card) return;
+
+      var service = card.dataset.service || '';
+      var phone = card.dataset.phone || '';
+
+      // Check if we have enough points
+      if (points < CALL_COST) {
+        alert('Not enough points to place this call.');
+        return; // do not deduct or add to history
+      }
+
+      // Deduct points and update UI
+      points = points - CALL_COST;
+      updatePointsDisplay();
+
+      // Add successful call to history
+      addToHistory(service, phone);
+    }
+
+    /**
+     * clearHistory
+     * - remove all entries from the call history list
+     */
+    function clearHistory() {
+      // Simple and beginner-friendly: clear innerHTML
+      callHistoryEl.innerHTML = '';
+    }
+
+    /* ------------------------
+       Attach event listeners
+       ------------------------ */
+
+    // Run once DOM is ready
+    document.addEventListener('DOMContentLoaded', function () {
+      // show initial points
+      updatePointsDisplay();
+
+      // attach copy handlers to all .copyBtn buttons
+      var copyButtons = document.querySelectorAll('.copyBtn');
+      Array.prototype.forEach.call(copyButtons, function (btn) {
+        btn.addEventListener('click', handleCopy);
+      });
+
+      // attach call handlers to all .callBtn buttons
+      var callButtons = document.querySelectorAll('.callBtn');
+      Array.prototype.forEach.call(callButtons, function (btn) {
+        btn.addEventListener('click', handleCall);
+      });
+
+      // attach clear history handler
+      clearHistoryBtn.addEventListener('click', function () {
+        // confirm action is optional — but we keep it simple and direct as requested
+        clearHistory();
+      });
+    });
+  </script>
+</body>
+</html>

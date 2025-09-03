@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gemini Solution</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+        .navbar {
+            background-color: #005a9c;
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .navbar h1 {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+        .points-counter {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .card {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+            display: flex;
+            flex-direction: column;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        .card-content h3 {
+            margin: 0 0 0.5rem;
+            color: #005a9c;
+        }
+        .card-content p {
+            margin: 0 0 1rem;
+            color: #555;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        .card-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: auto;
+        }
+        .card-actions button {
+            flex: 1;
+            padding: 0.75rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.2s, color 0.2s;
+        }
+        .copy-btn {
+            background-color: #f0ad4e;
+            color: white;
+        }
+        .copy-btn:hover {
+            background-color: #ec971f;
+        }
+        .call-btn {
+            background-color: #5cb85c;
+            color: white;
+        }
+        .call-btn:hover {
+            background-color: #4cae4c;
+        }
+        .history-section {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .history-section h2 {
+            margin-top: 0;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 0.5rem;
+        }
+        .history-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        .history-list li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #eee;
+        }
+        .history-list li:last-child {
+            border-bottom: none;
+        }
+        .clear-history-btn {
+            background-color: #d9534f;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 1rem;
+            font-weight: bold;
+            transition: background-color 0.2s;
+        }
+        .clear-history-btn:hover {
+            background-color: #c9302c;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="navbar">
+        <h1>Hotline Services</h1>
+        <div class="points-counter">Points: <span id="pointsCounter">100</span></div>
+    </div>
+
+    <div class="container">
+        <section class="cards-grid">
+            <div class="card" data-service="Police Helpline" data-phone="999">
+                <div class="card-content">
+                    <h3>Police Helpline</h3>
+                    <p>999</p>
+                </div>
+                <div class="card-actions">
+                    <button class="copy-btn">Copy</button>
+                    <button class="call-btn">Call</button>
+                </div>
+            </div>
+
+            <div class="card" data-service="Fire Department" data-phone="101">
+                <div class="card-content">
+                    <h3>Fire Department</h3>
+                    <p>101</p>
+                </div>
+                <div class="card-actions">
+                    <button class="copy-btn">Copy</button>
+                    <button class="call-btn">Call</button>
+                </div>
+            </div>
+            
+            <div class="card" data-service="Ambulance" data-phone="102">
+                <div class="card-content">
+                    <h3>Ambulance</h3>
+                    <p>102</p>
+                </div>
+                <div class="card-actions">
+                    <button class="copy-btn">Copy</button>
+                    <button class="call-btn">Call</button>
+                </div>
+            </div>
+            
+            <div class="card" data-service="Medical Helpline" data-phone="103">
+                <div class="card-content">
+                    <h3>Medical Helpline</h3>
+                    <p>103</p>
+                </div>
+                <div class="card-actions">
+                    <button class="copy-btn">Copy</button>
+                    <button class="call-btn">Call</button>
+                </div>
+            </div>
+
+            <div class="card" data-service="Roadside Assistance" data-phone="104">
+                <div class="card-content">
+                    <h3>Roadside Assistance</h3>
+                    <p>104</p>
+                </div>
+                <div class="card-actions">
+                    <button class="copy-btn">Copy</button>
+                    <button class="call-btn">Call</button>
+                </div>
+            </div>
+            
+            <div class="card" data-service="Electricity Emergency" data-phone="105">
+                <div class="card-content">
+                    <h3>Electricity Emergency</h3>
+                    <p>105</p>
+                </div>
+                <div class="card-actions">
+                    <button class="copy-btn">Copy</button>
+                    <button class="call-btn">Call</button>
+                </div>
+            </div>
+            
+            <div class="card" data-service="Water Works" data-phone="106">
+                <div class="card-content">
+                    <h3>Water Works</h3>
+                    <p>106</p>
+                </div>
+                <div class="card-actions">
+                    <button class="copy-btn">Copy</button>
+                    <button class="call-btn">Call</button>
+                </div>
+            </div>
+            
+            <div class="card" data-service="Animal Control" data-phone="107">
+                <div class="card-content">
+                    <h3>Animal Control</h3>
+                    <p>107</p>
+                </div>
+                <div class="card-actions">
+                    <button class="copy-btn">Copy</button>
+                    <button class="call-btn">Call</button>
+                </div>
+            </div>
+            
+            <div class="card" data-service="Poison Control" data-phone="108">
+                <div class="card-content">
+                    <h3>Poison Control</h3>
+                    <p>108</p>
+                </div>
+                <div class="card-actions">
+                    <button class="copy-btn">Copy</button>
+                    <button class="call-btn">Call</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="history-section">
+            <h2>Call History</h2>
+            <ul id="callHistory" class="history-list">
+                </ul>
+            <button id="clearHistoryBtn" class="clear-history-btn">Clear History</button>
+        </section>
+    </div>
+
+    <script>
+        // ----------------------------------------------------
+        // Step 1: Get references to all the necessary DOM elements
+        // ----------------------------------------------------
+        // This is a common first step. We grab the elements we need to interact with.
+        const pointsCounterEl = document.getElementById('pointsCounter');
+        const callHistoryList = document.getElementById('callHistory');
+        const cardsGrid = document.querySelector('.cards-grid');
+        const clearHistoryBtn = document.getElementById('clearHistoryBtn');
+
+        // ----------------------------------------------------
+        // Step 2: Initialize the starting points value
+        // ----------------------------------------------------
+        // We store the points in a variable so we can change its value.
+        // It starts at 100, just like the HTML shows.
+        let currentPoints = 100;
+
+        // ----------------------------------------------------
+        // Step 3: Define the main event handlers
+        // ----------------------------------------------------
+        
+        /**
+         * Handles the click event for the Copy button.
+         * @param {Event} event - The click event object.
+         */
+        function handleCopy(event) {
+            // Find the parent card element that contains the button that was clicked.
+            const card = event.target.closest('.card');
+            
+            // Access the service and phone number from the 'data-*' attributes on the card.
+            // Using dataset is a clean way to get these values.
+            const serviceName = card.dataset.service;
+            const phoneNumber = card.dataset.phone;
+            
+            // Create the full text to be copied to the clipboard.
+            const textToCopy = `${serviceName} — ${phoneNumber}`;
+            
+            // Use the modern Clipboard API to copy the text.
+            // This is a promise-based method, so we use .then() and .catch().
+            navigator.clipboard.writeText(textToCopy)
+                .then(() => {
+                    // Success!
+                    alert(`Copied to clipboard: ${textToCopy}`);
+                })
+                .catch(err => {
+                    // Fallback for older browsers or if the API is not available.
+                    console.error('Failed to copy text using Clipboard API. Falling back.', err);
+                    alert(`Could not copy. Please manually copy this text: ${textToCopy}`);
+                });
+        }
+
+        /**
+         * Handles the click event for the Call button.
+         * @param {Event} event - The click event object.
+         */
+        function handleCall(event) {
+            // Check if there are enough points before proceeding.
+            const COST_PER_CALL = 20;
+            if (currentPoints < COST_PER_CALL) {
+                // If not enough points, show an alert and stop the function.
+                alert('Not enough points to place this call.');
+                return; // This stops the rest of the function from running.
+            }
+
+            // Find the parent card element.
+            const card = event.target.closest('.card');
+            
+            // Get the service name and phone number from the card's data attributes.
+            const serviceName = card.dataset.service;
+            const phoneNumber = card.dataset.phone;
+            
+            // Deduct points and update the counter.
+            currentPoints -= COST_PER_CALL;
+            updatePointsDisplay();
+
+            // Add the successful call to the history.
+            addToHistory(serviceName, phoneNumber);
+        }
+
+        /**
+         * Updates the points display on the page.
+         */
+        function updatePointsDisplay() {
+            // This function takes the value from the JS variable 'currentPoints'
+            // and puts it into the HTML element with id="pointsCounter".
+            pointsCounterEl.textContent = currentPoints;
+        }
+
+        /**
+         * Adds a new entry to the call history list.
+         * @param {string} service - The service name.
+         * @param {string} phone - The phone number.
+         */
+        function addToHistory(service, phone) {
+            // Create a new list item element.
+            const newHistoryItem = document.createElement('li');
+            
+            // Set the text content of the new item.
+            newHistoryItem.textContent = `${service} — ${phone}`;
+            
+            // Append the new item to the call history list.
+            callHistoryList.appendChild(newHistoryItem);
+        }
+
+        /**
+         * Handles the click event for the Clear History button.
+         */
+        function handleClearHistory() {
+            // This is a simple and fast way to remove all children from an element.
+            // We set the innerHTML to an empty string.
+            callHistoryList.innerHTML = '';
+        }
+
+        // ----------------------------------------------------
+        // Step 4: Add event listeners to buttons
+        // ----------------------------------------------------
+        // We use a single event listener on the parent container (event delegation)
+        // instead of adding 9 listeners for each button. This is more efficient.
+        cardsGrid.addEventListener('click', (event) => {
+            // Check if the clicked element has the 'copy-btn' class.
+            if (event.target.classList.contains('copy-btn')) {
+                handleCopy(event);
+            }
+            // Check if the clicked element has the 'call-btn' class.
+            if (event.target.classList.contains('call-btn')) {
+                handleCall(event);
+            }
+        });
+        
+        // Add a click listener to the Clear History button.
+        clearHistoryBtn.addEventListener('click', handleClearHistory);
+        
+        // ----------------------------------------------------
+        // Step 5: Initial page setup
+        // ----------------------------------------------------
+        // Call the function once to make sure the initial points display is correct.
+        // Although the HTML starts with 100, this is good practice for more complex apps.
+        updatePointsDisplay();
+
+    </script>
+</body>
+</html>
