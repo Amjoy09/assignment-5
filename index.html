@@ -11,24 +11,27 @@
     />
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="stylesheet" href="style/style.css">
     
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
-
+   
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+  </style>
+
   </head>
 
   <body class="body max-w-[100vw] font-inter bg-[#F5FFF6]">
     <header>
-      <nav class="md:flex flex-none justify-between p-8 bg-white">
+      <nav class="flex justify-between p-8 bg-white">
         <div class="nav-left md:flex flex-none">
           <img class="w-18" src="./assets/logo.png" alt="" />
           <p class="nav-title text-3xl font-bold text-[#006747]">Emergency<br>Service</p>
         </div>
 
-        <div class="nav-right md:flex flex-none gap-6 items-center">
+        <div class="nav-right md:flex flex-none gap-6 items-center md:items-center">
           <button class="heart-count rounded-3xl font-bold flex py-[14px] px-[38px] gap-4 justify-between items-center bg-[#F5FFF6]">
             <span id="heart-number">0</span>
             <img class="w-10" src="./assets/heart.png" alt="" />
@@ -40,6 +43,8 @@
           <button class="btn-copy rounded-4xl w-[120px] h-[52px] bg-[#00A63E] text-white"><span id="copy-count">2</span>  Copy</button>
         </div>
       </nav>
+
+
       <div class="banner py-[21px] min-h-[200px] bg-gradient-to-r from-[#013223] via-[#006747] to-[#013223] text-white">
             
                 <img class="banner-img mx-auto w-[94px] h-[94px]" src="./assets/logo-dark.png" alt="">
@@ -51,14 +56,12 @@
      </div>
       
     </header>
-
-
     
     <main>
 
-        <section class="main max-w-[96%] mt-13 gap-11 mx-auto md:flex flex-none">
+     <section class="main max-w-[96%] mt-13 gap-11 mx-auto flex-none md:flex md:gap12 ">
 
-  <div class="card-container w-[70%] grid grid-cols-1 md:grid-cols-3 gap-7">
+  <div class="card-container md:w-[70%] w-[100%] grid grid-cols-1 md:grid-cols-3 gap-7">
            
     
 <div class="card-body card-xl shadow-lg bg-yellow-50">
@@ -217,11 +220,16 @@
 
 
 
- <div class="call-history rounded-xl bg-gray-50 w-[30%] border-2 border-cyan-600">
+ <div class="call-history-section rounded-xl bg-gray-50 w-[30%] border-2 border-cyan-600">
  <div class=" flex justify-between items-center mx-13 my-10 font-semibold">
        <div class="flex gap-3 items-center"><i class="fa-solid fa-clock-rotate-left"></i><p>Call History</p></div>
-     <button class="btn w-[114px] h-[53px] rounded-4xl bg-green-600 text-gray-50">Clear</button>
+     <button id="clearHistoryBtn" class="w-[114px] h-[53px] rounded-4xl bg-green-600 text-gray-50">Clear</button>
+     
  </div>
+  <ul id="callHistory" class="history-list">
+        
+        </ul>
+        <br>
 
  </div>
 </section>
